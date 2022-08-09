@@ -2,6 +2,7 @@ use election;
 
 drop table if exists candidates;
 drop table if exists parties; 
+drop table if exists voters;
 
 create table parties (
     id integer auto_increment primary key,
@@ -18,3 +19,10 @@ create table candidates (
     CONSTRAINT fk_party FOREIGN KEY (party_id) REFERENCES parties(id) ON DELETE SET NULL
 );
 
+create table voters (
+    id integer auto_increment primary key,
+    first_name varchar(30) not null,
+    last_name varchar(30) not null,
+    email varchar(50) not null,
+    created_at datetime default current_timestamp
+);
