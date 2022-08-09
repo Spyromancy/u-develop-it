@@ -26,8 +26,13 @@ app.get('/', (req,res) => {
     });
 });
 
+// Get all candidates
 app.get('/api/candidates', (req,res) => {
-    const sql = 'select * from candidates';
+    const sql = `select candidates.*, parties.name
+                as party_name
+                from candidates
+                left join parties
+                on candidates.party_id = parties.id`;
 
     db.query(sql, (err, rows) => {
         if (err) {
@@ -43,7 +48,12 @@ app.get('/api/candidates', (req,res) => {
 
 // Get a single candidate
 app.get('/api/candidate/:id', (req, res) => {
-    const sql = 'select * from candidates where id = ?';
+    const sql = `select candidates.*, parties.name
+                as party_name
+                from candidates
+                left join parties
+                on candidates.party_id = parties.id
+                where id = ?`;
     const params = [req.params.id];
 
     db.query(sql, params, (err,row) => {
@@ -58,6 +68,7 @@ app.get('/api/candidate/:id', (req, res) => {
     });
 });
 
+// Delete a candidate
 app.delete('/api/candidate/:id', (req, res) => {
     const sql = 'delete from candidates where id = ?';
     const params = [req.params.id];
