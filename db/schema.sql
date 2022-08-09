@@ -1,3 +1,5 @@
+use election;
+
 drop table if exists candidates;
 drop table if exists parties; 
 
